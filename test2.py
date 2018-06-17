@@ -24,7 +24,7 @@ cv2.imwrite('imageEdges.bmp', imageEdges)
 imageEdges = cv2.cvtColor(imageEdges, cv2.COLOR_GRAY2RGB)
 
 print(imageEdges.shape)
-cv2.imwrite('imageEdges22.bmp', imageEdges)
+# cv2.imwrite('imageEdges22.bmp', imageEdges)
 imageAux = cv2.bilateralFilter(imageAux, 5, 150, 150)
 
 # sElement = cv2.getStructuringElement(1, (2,2))
@@ -53,15 +53,11 @@ _ret, _label, _center = cv2.kmeans(imageKmeans, k, None, criteria, 10, cv2.KMEAN
 
 _center = np.uint8(_center)
 _res = _center[_label.flatten()]
-_res2 = _res.reshape(image.shape)
-cv2.imwrite('res2.bmp', _res2)
+imageQuantized = _res.reshape(imageAux.shape)
+cv2.imwrite('imageQuantized.bmp', imageQuantized)
 
         # final _image
-imageCartoon = cv2.bitwise_and(_res2, imageEdges)
-
-
-
-
+imageCartoon = cv2.bitwise_and(imageQuantized, imageEdges)
 
 # imageCartoon = cv2.bitwise_and(imageEdgesDilated, imageAux)
 cv2.imwrite('imageCartoon.bmp', imageCartoon)

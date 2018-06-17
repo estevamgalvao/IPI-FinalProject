@@ -8,29 +8,48 @@ adressOriginalImages  = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-Fina
 adressBluredImages    = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/bluredImages/'
 adressEdgesImages     = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/edgesImages/'
 adressbFilteredImages = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/bFilteredImages/'
-adressRes2Images      = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/res2Images/'
+adressRes2Images      = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/quantizedImages/'
 adressCartoonImages   = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/cartoonImages/'
 
 
 typeImage = '*.jpg'
-adressOriginalImages += typeImage
-originalImagesArray = [cv2.imread(file) for file in glob.glob(adressOriginalImages)]
+# adressOriginalImages += typeImage
+originalImagesArray = [cv2.imread(file) for file in glob.glob(adressOriginalImages + typeImage)]
 
+# imagem = cv2.imread(adressOriginalImages + 'vaca3.jpg')
+# imagem2 = originalImagesArray[8]
+# cv2.imshow('vaca3', imagem)
+# cv2.waitKey(0)
+# cv2.imshow('vacaarray', imagem2)
+# cv2.waitKey(0)
+
+# parece que o glob tá mudando de alguma forma a res2 da img
 a = datetime.datetime.now()
-for i in range(len(originalImagesArray)):
-    imageAux = copy.copy(originalImagesArray[i])
+numImages = len(originalImagesArray)
+# numImages = 1
+for i in range(numImages):
+
+    imageAux = originalImagesArray[i]
+    # imageAux = cv2.imread(adressOriginalImages + 'img8.jpg')
+    # imageAux = copy.copy(image)
 
     imageBlured = cv2.medianBlur(imageAux, 7)
     cv2.imwrite(adressBluredImages + 'imageBlured' + str((i+1)) + '.bmp', imageBlured)
+    # cv2.imwrite(adressBluredImages + 'SEMGLOBimageBlured' + str((i+1)) + '.bmp', imageBlured)
+
 
     imageEdges = cv2.Canny(imageBlured, 75, 125, L2gradient=True)
     imageEdges = cv2.bitwise_not(imageEdges) # inverto as linhas de branco para preto e o fundo de preto para branco
     cv2.imwrite(adressEdgesImages + 'imageEdges' + str((i+1)) + '.bmp', imageEdges)
+    # cv2.imwrite(adressEdgesImages + 'SEMGLOBimageEdges' + str((i+1)) + '.bmp', imageEdges)
+
 
     imageEdges = cv2.cvtColor(imageEdges, cv2.COLOR_GRAY2RGB) # faço a img ter 3 canais novamente
 
     imageFiltered = cv2.bilateralFilter(imageBlured, 5, 150, 150)
     cv2.imwrite(adressbFilteredImages + 'imageFiltered' + str((i+1)) + '.bmp', imageFiltered)
+    # cv2.imwrite(adressbFilteredImages + 'SEMGLOBimageFiltered' + str((i+1)) + '.bmp', imageFiltered)
+
 
     imageKmeans = imageFiltered.reshape((-1, 3))
     imageKmeans = np.float32(imageKmeans)
@@ -41,10 +60,13 @@ for i in range(len(originalImagesArray)):
 
     _center = np.uint8(_center)
     _res = _center[_label.flatten()]
-    _res2 = _res.reshape(originalImagesArray[i].shape)
-    cv2.imwrite(adressRes2Images + 'res2' + str((i+1)) + '.bmp', _res2)
+    imageQuantized = _res.reshape(imageAux.shape)
+    cv2.imwrite(adressRes2Images + 'imageQuantized' + str((i+1)) + '.bmp', imageQuantized)
+    # cv2.imwrite(adressRes2Images + 'SEMGLOBimageQuantized' + str((i+1)) + '.bmp', imageQuantized)
 
-    imageCartoon = cv2.bitwise_and(_res2, imageEdges)
+
+    imageCartoon = cv2.bitwise_and(imageQuantized, imageEdges)
     cv2.imwrite(adressCartoonImages + 'imageCartoon' + str((i+1)) + '.bmp', imageCartoon)
+    # cv2.imwrite(adressCartoonImages + 'SEMGLOBimageCartoon' + str((i+1)) + '.bmp', imageCartoon)
 b = datetime.datetime.now()
 print("\nThe program took %d hours, %d minutes and %d seconds to execute"%(abs(b.hour-a.hour), abs(b.minute-a.minute), abs(b.second-a.second)))
