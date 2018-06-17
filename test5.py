@@ -11,7 +11,7 @@ adressCartoonImages   = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-Fina
 
 
 typeImage = '.jpg'
-i = 10
+i = 42
 # imageAux = originalImagesArray[i]
 imageAux = cv2.imread(adressOriginalImages + 'img' + str((i + 1)) + '.jpg')
 # imageAux = cv2.imread('img9.jpg')

@@ -6,17 +6,19 @@ import datetime
 adressOriginalImages  = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/originalImages/'
 
 
-image = cv2.imread(adressOriginalImages + 'img4.jpg')
+image = cv2.imread(adressOriginalImages + 'img43.jpg')
 imageAux = copy.copy(image)
 
-numDownsamples = 2
+numDownsamples = 1
 numBilateralFiltering = 1
 
 a = datetime.datetime.now()
-for _ in range(numDownsamples):
-    imageAux = cv2.pyrDown(imageAux)
+# for _ in range(numDownsamples):
+#     imageAux = cv2.pyrDown(imageAux)
+height, width = imageAux.shape[:2]
+imageAux = cv2.resize(imageAux,(int(width/2), int(height/2)), interpolation = cv2.INTER_CUBIC)
 
-imageBlured = cv2.medianBlur(imageAux, 9)
+imageBlured = cv2.medianBlur(imageAux, 7)
 cv2.imwrite('imageBlured.bmp', imageBlured)
 
 imageAux = imageBlured
@@ -24,8 +26,10 @@ imageAux = imageBlured
 imageEdges = cv2.Canny(imageAux, 65, 125, L2gradient=True)
 imageEdges = cv2.bitwise_not(imageEdges)
 
-for _ in range(numDownsamples):
-    imageEdges = cv2.pyrUp(imageEdges)
+# for _ in range(numDownsamples):
+#     imageEdges = cv2.pyrUp(imageEdges)
+imageEdges = cv2.resize(imageEdges,(2*width, 2*height), interpolation = cv2.INTER_CUBIC)
+
 
 print(imageEdges.shape)
 
@@ -42,10 +46,11 @@ print(imageEdges.shape)
 # imageEdgesDilated = cv2.cvtColor(imageEdgesDilated, cv2.COLOR_GRAY2RGB)
 
 for _ in range(numBilateralFiltering):
-    imageAux = cv2.bilateralFilter(imageAux, 9, 150, 150)
+    imageAux = cv2.bilateralFilter(imageAux, 7, 35, 35)
 
-for _ in range(numDownsamples):
-    imageAux = cv2.pyrUp(imageAux)
+# for _ in range(numDownsamples):
+#     imageAux = cv2.pyrUp(imageAux)
+imageAux = cv2.resize(imageAux,(2*width, 2*height), interpolation = cv2.INTER_CUBIC)
 
 imageFiltered = imageAux
 cv2.imwrite('imageFiltered.bmp', imageFiltered)
