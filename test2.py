@@ -16,7 +16,7 @@ a = datetime.datetime.now()
 for _ in range(numDownsamples):
     imageAux = cv2.pyrDown(imageAux)
 
-imageBlured = cv2.medianBlur(imageAux, 7)
+imageBlured = cv2.medianBlur(imageAux, 9)
 cv2.imwrite('imageBlured.bmp', imageBlured)
 
 imageAux = imageBlured
@@ -42,7 +42,7 @@ print(imageEdges.shape)
 # imageEdgesDilated = cv2.cvtColor(imageEdgesDilated, cv2.COLOR_GRAY2RGB)
 
 for _ in range(numBilateralFiltering):
-    imageAux = cv2.bilateralFilter(imageAux, 5, 150, 150)
+    imageAux = cv2.bilateralFilter(imageAux, 9, 150, 150)
 
 for _ in range(numDownsamples):
     imageAux = cv2.pyrUp(imageAux)
