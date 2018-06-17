@@ -39,7 +39,7 @@ for i in range(numImages):
     # cv2.imwrite(adressBluredImages + 'SEMGLOBimageBlured' + str((i+1)) + typeImage, imageBlured)
 
 
-    imageEdges = cv2.Canny(imageBlured, 75, 125, L2gradient=True)
+    imageEdges = cv2.Canny(imageBlured, 62.5, 125, L2gradient=True)
     imageEdges = cv2.bitwise_not(imageEdges) # inverto as linhas de branco para preto e o fundo de preto para branco
     cv2.imwrite(adressEdgesImages + 'imageEdges' + str((i+1)) + typeImage, imageEdges)
     # cv2.imwrite(adressEdgesImages + 'SEMGLOBimageEdges' + str((i+1)) + typeImage, imageEdges)
@@ -47,7 +47,7 @@ for i in range(numImages):
 
     imageEdges = cv2.cvtColor(imageEdges, cv2.COLOR_GRAY2RGB) # faço a img ter 3 canais novamente
 
-    imageFiltered = cv2.bilateralFilter(imageBlured, 5, 150, 150)
+    imageFiltered = cv2.bilateralFilter(imageBlured, 7, 250, 150)
     cv2.imwrite(adressbFilteredImages + 'imageFiltered' + str((i+1)) + typeImage, imageFiltered)
     # cv2.imwrite(adressbFilteredImages + 'SEMGLOBimageFiltered' + str((i+1)) + typeImage, imageFiltered)
 

@@ -19,7 +19,7 @@ cv2.imwrite('2imageBlured.bmp', imageBlured)
 
 imageAux = imageBlured
 
-imageEdges = cv2.Canny(imageAux, 65, 125, L2gradient=True)
+imageEdges = cv2.Canny(imageAux, 62.5, 125, L2gradient=True)
 imageEdges = cv2.bitwise_not(imageEdges)
 
 # for _ in range(numDownsamples):
@@ -33,7 +33,7 @@ imageEdges = cv2.cvtColor(imageEdges, cv2.COLOR_GRAY2RGB)
 
 print(imageEdges.shape)
 # cv2.imwrite('imageEdges22.bmp', imageEdges)
-imageAux = cv2.bilateralFilter(imageAux, 5, 150, 150)
+imageAux = cv2.bilateralFilter(imageAux, 7, 200, 150)
 
 # sElement = cv2.getStructuringElement(1, (2,2))
 # imageEdgesDilated = cv2.dilate(imageEdges, sElement)
