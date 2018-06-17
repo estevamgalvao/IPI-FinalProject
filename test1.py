@@ -1,54 +1,74 @@
 import cv2
+import copy
 import numpy as np
+import datetime
 
-from functions.toonify import *
-from functions.rgb_greyscale import RGB2Greyscale
-
-img = cv2.imread("kchorro.jpg")
-cv2.imshow('kcchorro', img)
-cv2.waitKey(0)
-
-for i in range(2):
-    img = cv2.pyrDown(img)
-# img = cv2.pyrDown(img)
-# cv2.imwrite('menor2.bmp', img)
-# cv2.imshow('menor', img)
-# cv2.waitKey(0)
-for j in range(7):
-    img = cv2.bilateralFilter(img, d=9, sigmaColor=9, sigmaSpace=7)
-cv2.imwrite('bilateral.bmp', img)
+adressOriginalImages  = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/originalImages/'
 
 
+image = cv2.imread(adressOriginalImages + 'img2.jpg')
+imageAux = copy.copy(image)
+a = datetime.datetime.now()
+# numDownsamples = 2
+# numBilateralFiltering = 14
 
+# for _ in range(numDownsamples):
+#     imageAux = cv2.pyrDown(imageAux)
+imageBlured = cv2.medianBlur(imageAux, 7)
+cv2.imwrite('2imageBlured.bmp', imageBlured)
 
+imageAux = imageBlured
 
-img = cv2.pyrUp(img)
-img = cv2.pyrUp(img)
-cv2.imwrite('maior.bmp', img)
-# cv2.imshow('menor', img)
-# cv2.waitKey(0)
+imageEdges = cv2.Canny(imageAux, 65, 125, L2gradient=True)
+imageEdges = cv2.bitwise_not(imageEdges)
 
-# # imgGrey = RGB2Greyscale(img)
-# # cv2.imshow('kcchorro_cinza', imgGrey)
-# # cv2.waitKey(0)
-# gaussianImage = cv2.GaussianBlur(img, (7,7), 0)
-# cv2.imwrite('1gaussianImage.bmp', gaussianImage)
-# # cv2.imshow('gaussianImage', gaussianImage)
-# # cv2.waitKey(0)
-#
-# medianImage = cv2.medianBlur(img, 7)
-# cv2.imwrite('2medianImage.bmp', medianImage)
-# # cv2.imshow('medianImage', medianImage)
-# # cv2.waitKey(0)
-#
-# gMedianImage = cv2.medianBlur(gaussianImage, 7)
-# cv2.imwrite('3gMedianImage.bmp', gMedianImage)
-# # cv2.imshow('gMedianImage', gMedianImage)
-# # cv2.waitKey(0)
-#
-# edges = cv2.Canny(gMedianImage, 75, 150, L2gradient=True)
-# cv2.imwrite('edges.bmp', edges)
-#
-# se = cv2.getStructuringElement(1, (2,2))
-# edges = cv2.dilate(edges, se)
-# cv2.imwrite('edges2.bmp', edges)
+# for _ in range(numDownsamples):
+#     imageEdges = cv2.pyrUp(imageEdges)
+
+print(imageEdges.shape)
+
+cv2.imwrite('1imageEdges.bmp', imageEdges)
+
+imageEdges = cv2.cvtColor(imageEdges, cv2.COLOR_GRAY2RGB)
+
+print(imageEdges.shape)
+# cv2.imwrite('imageEdges22.bmp', imageEdges)
+imageAux = cv2.bilateralFilter(imageAux, 5, 150, 150)
+
+# sElement = cv2.getStructuringElement(1, (2,2))
+# imageEdgesDilated = cv2.dilate(imageEdges, sElement)
+# imageEdgesDilated = cv2.cvtColor(imageEdgesDilated, cv2.COLOR_GRAY2RGB)
+
+# for _ in range(numBilateralFiltering):
+#     imageAux = cv2.bilateralFilter(imageAux, 5, 15, 15)
+
+# for _ in range(numDownsamples):
+#     imageAux = cv2.pyrUp(imageAux)
+
+imageFiltered = imageAux
+cv2.imwrite('3imageFiltered.bmp', imageFiltered)
+# imageBlured = cv2.medianBlur(imageAux, 7)
+
+imageKmeans = imageFiltered.reshape((-1, 3))
+imageKmeans = np.float32(imageKmeans)
+# print(imageKmeans)
+testFeaturesArray = np.array(imageKmeans, dtype = np.float32)
+print(testFeaturesArray)
+
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1)
+k = 24
+
+_ret, _label, _center = cv2.kmeans(imageKmeans, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+
+_center = np.uint8(_center)
+_res = _center[_label.flatten()]
+imageQuantized = _res.reshape(imageAux.shape)
+cv2.imwrite('4imageQuantized.bmp', imageQuantized)
+
+        # final _image
+imageCartoon = cv2.bitwise_and(imageQuantized, imageEdges)
+
+# imageCartoon = cv2.bitwise_and(imageEdgesDilated, imageAux)
+cv2.imwrite('5imageCartoon.bmp', imageCartoon)
+b = datetime.datetime.now()
+print("\nThe program took %d hours, %d minutes and %d seconds to execute"%(abs(b.hour-a.hour), abs(b.minute-a.minute), abs(b.second-a.second)))
