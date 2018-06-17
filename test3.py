@@ -30,7 +30,11 @@ numImages = len(originalImagesArray)
 # numImages = 1
 for i in range(numImages):
 
-    imageAux = originalImagesArray[i]
+    # imageAux = originalImagesArray[i]
+    imageAux = cv2.imread(adressOriginalImages + 'img' + str((i + 1)) + '.jpg')
+    print(adressOriginalImages + 'img' + str((i + 1)) + '.jpg')
+    # cv2.imshow('original', imageAux)
+    # cv2.waitKey(0)
     # imageAux = cv2.imread(adressOriginalImages + 'img8.jpg')
     # imageAux = copy.copy(image)
 
@@ -47,7 +51,7 @@ for i in range(numImages):
 
     imageEdges = cv2.cvtColor(imageEdges, cv2.COLOR_GRAY2RGB) # faço a img ter 3 canais novamente
 
-    imageFiltered = cv2.bilateralFilter(imageBlured, 7, 250, 150)
+    imageFiltered = cv2.bilateralFilter(imageBlured, 7, 35, 35)
     cv2.imwrite(adressbFilteredImages + 'imageFiltered' + str((i+1)) + typeImage, imageFiltered)
     # cv2.imwrite(adressbFilteredImages + 'SEMGLOBimageFiltered' + str((i+1)) + typeImage, imageFiltered)
 
@@ -69,5 +73,8 @@ for i in range(numImages):
     imageCartoon = cv2.bitwise_and(imageQuantized, imageEdges)
     cv2.imwrite(adressCartoonImages + 'imageCartoon' + str((i+1)) + typeImage, imageCartoon)
     # cv2.imwrite(adressCartoonImages + 'SEMGLOBimageCartoon' + str((i+1)) + typeImage, imageCartoon)
+    # cv2.imshow('cartoon', imageCartoon)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 b = datetime.datetime.now()
 print("\nThe program took %d hours, %d minutes and %d seconds to execute"%(abs(b.hour-a.hour), abs(b.minute-a.minute), abs(b.second-a.second)))

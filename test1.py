@@ -6,7 +6,7 @@ import datetime
 adressOriginalImages  = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/originalImages/'
 
 
-image = cv2.imread(adressOriginalImages + 'img2.jpg')
+image = cv2.imread(adressOriginalImages + 'img13.jpg')
 imageAux = copy.copy(image)
 a = datetime.datetime.now()
 # numDownsamples = 2
@@ -33,7 +33,7 @@ imageEdges = cv2.cvtColor(imageEdges, cv2.COLOR_GRAY2RGB)
 
 print(imageEdges.shape)
 # cv2.imwrite('imageEdges22.bmp', imageEdges)
-imageAux = cv2.bilateralFilter(imageAux, 7, 200, 150)
+imageAux = cv2.bilateralFilter(imageAux, 7, 35, 35)
 
 # sElement = cv2.getStructuringElement(1, (2,2))
 # imageEdgesDilated = cv2.dilate(imageEdges, sElement)
