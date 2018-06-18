@@ -10,7 +10,7 @@ adressEdgesImages     = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-Fina
 adressbFilteredImages = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/bFilteredImages/'
 adressRes2Images      = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/quantizedImages/'
 adressCartoonImages   = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/cartoonImages/'
-
+adressAuxImages  = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/auxImages/'
 
 typeImage = '*.jpg'
 # adressOriginalImages += typeImage
@@ -30,13 +30,10 @@ numImages = len(originalImagesArray)
 # numImages = 1
 for i in range(numImages):
 
-    # imageAux = originalImagesArray[i]
-    imageAux = cv2.imread(adressOriginalImages + 'img' + str((i + 1)) + '.jpg')
+    imageAux = originalImagesArray[i]
+    cv2.imwrite(adressAuxImages + 'imageAux' + str((i+1)) + typeImage, imageAux)
+    # imageAux = cv2.imread(adressOriginalImages + 'img' + str((i + 1)) + '.jpg')
     print(adressOriginalImages + 'img' + str((i + 1)) + '.jpg')
-    # cv2.imshow('original', imageAux)
-    # cv2.waitKey(0)
-    # imageAux = cv2.imread(adressOriginalImages + 'img8.jpg')
-    # imageAux = copy.copy(image)
 
     imageBlured = cv2.medianBlur(imageAux, 7)
     cv2.imwrite(adressBluredImages + 'imageBlured' + str((i+1)) + typeImage, imageBlured)
@@ -47,7 +44,6 @@ for i in range(numImages):
     imageEdges = cv2.bitwise_not(imageEdges) # inverto as linhas de branco para preto e o fundo de preto para branco
     cv2.imwrite(adressEdgesImages + 'imageEdges' + str((i+1)) + typeImage, imageEdges)
     # cv2.imwrite(adressEdgesImages + 'SEMGLOBimageEdges' + str((i+1)) + typeImage, imageEdges)
-
 
     imageEdges = cv2.cvtColor(imageEdges, cv2.COLOR_GRAY2RGB) # faço a img ter 3 canais novamente
 
@@ -69,12 +65,9 @@ for i in range(numImages):
     cv2.imwrite(adressRes2Images + 'imageQuantized' + str((i+1)) + typeImage, imageQuantized)
     # cv2.imwrite(adressRes2Images + 'SEMGLOBimageQuantized' + str((i+1)) + typeImage, imageQuantized)
 
-
     imageCartoon = cv2.bitwise_and(imageQuantized, imageEdges)
     cv2.imwrite(adressCartoonImages + 'imageCartoon' + str((i+1)) + typeImage, imageCartoon)
     # cv2.imwrite(adressCartoonImages + 'SEMGLOBimageCartoon' + str((i+1)) + typeImage, imageCartoon)
-    # cv2.imshow('cartoon', imageCartoon)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+
 b = datetime.datetime.now()
 print("\nThe program took %d hours, %d minutes and %d seconds to execute"%(abs(b.hour-a.hour), abs(b.minute-a.minute), abs(b.second-a.second)))
