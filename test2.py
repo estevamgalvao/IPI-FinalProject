@@ -6,7 +6,7 @@ import datetime
 adressOriginalImages  = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/originalImages/'
 
 
-image = cv2.imread(adressOriginalImages + 'img43.jpg')
+image = cv2.imread(adressOriginalImages + '100.jpg')
 imageAux = copy.copy(image)
 
 numDownsamples = 1
@@ -15,7 +15,8 @@ numBilateralFiltering = 1
 a = datetime.datetime.now()
 # for _ in range(numDownsamples):
 #     imageAux = cv2.pyrDown(imageAux)
-height, width = imageAux.shape[:2]
+height, width, c = imageAux.shape
+shape = imageAux.shape
 imageAux = cv2.resize(imageAux,(int(width/2), int(height/2)), interpolation = cv2.INTER_CUBIC)
 
 imageBlured = cv2.medianBlur(imageAux, 7)

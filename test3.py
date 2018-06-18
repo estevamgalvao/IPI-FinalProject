@@ -14,8 +14,8 @@ adressAuxImages  = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProj
 
 typeImage = '*.jpg'
 # adressOriginalImages += typeImage
-originalImagesArray = [cv2.imread(file) for file in glob.glob(adressOriginalImages + typeImage)]
-
+originalImagesArray = [cv2.imread(file) for file in sorted(glob.glob(adressOriginalImages + typeImage))]
+# print(originalImagesArray)
 # imagem = cv2.imread(adressOriginalImages + 'vaca3.jpg')
 # imagem2 = originalImagesArray[8]
 # cv2.imshow('vaca3', imagem)
@@ -24,7 +24,7 @@ originalImagesArray = [cv2.imread(file) for file in glob.glob(adressOriginalImag
 # cv2.waitKey(0)
 
 # parece que o glob tá mudando de alguma forma a res2 da img
-typeImage = '.jpg'
+typeImage = typeImage[1:]
 a = datetime.datetime.now()
 numImages = len(originalImagesArray)
 # numImages = 1
