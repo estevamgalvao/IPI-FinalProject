@@ -71,7 +71,7 @@ for index in range(len(originalImagesArray)):
         cv2.imwrite(adresses[3] + 'imageEdges' + str((index + 1)) + typeImage, imageEdges)
         cv2.imwrite(adresses[4] + 'imageFiltered' + str((index + 1)) + typeImage, imageFiltered)
         cv2.imwrite(adresses[5] + 'imageQuantized' + str((index + 1)) + typeImage, imageQuantized)
-    cv2.imwrite(adresses[1] + 'imageCartoon' + str((index + 1)) + typeImage, imageToonify)
+    cv2.imwrite(adresses[1] + 'imageToonify' + str((index + 1)) + typeImage, imageToonify)
 b = datetime.datetime.now()
 
 print("Success! Images were created.")
