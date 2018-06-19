@@ -5,14 +5,6 @@ import datetime
 
 from functions.miscellaneous import *
 
-# adressOriginalImages = './images/originalImages/'
-# adressToonifyImages = './images/toonifyImages/'
-# adressBluredImages = './images/bluredImages/'
-# adressEdgesImages = './images/edgesImages/'
-# adressbFilteredImages = './images/bFilteredImages/'
-# adressQuantizedImages = './images/quantizedImages/'
-
-
 profile = int(input("- Profiles -\n[0] Admin\n[1] User\nselect: "))
 adresses = confirmProfile(profile)
 typeImage = input("Image type:\n")
@@ -20,9 +12,9 @@ typeImage = '*.' + typeImage
 originalImagesArray = [cv2.imread(file) for file in sorted(glob.glob(adresses[0] + typeImage))]
 typeImage = typeImage[1:]
 
+print("\n- Toonifying -\n")
 a = datetime.datetime.now()
 bigImage = 0
-print()
 for index in range(len(originalImagesArray)):
     print(str((index + 1)) + 'º Image processing...')
     imageAux = originalImagesArray[index]
@@ -67,11 +59,11 @@ for index in range(len(originalImagesArray)):
     imageToonify = cv2.bitwise_and(imageQuantized, imageEdges)
 
     if profile == 0:
-        cv2.imwrite(adresses[2] + 'imageBlured' + str((index + 1)) + typeImage, imageBlured)
-        cv2.imwrite(adresses[3] + 'imageEdges' + str((index + 1)) + typeImage, imageEdges)
-        cv2.imwrite(adresses[4] + 'imageFiltered' + str((index + 1)) + typeImage, imageFiltered)
-        cv2.imwrite(adresses[5] + 'imageQuantized' + str((index + 1)) + typeImage, imageQuantized)
-    cv2.imwrite(adresses[1] + 'imageToonify' + str((index + 1)) + typeImage, imageToonify)
+        cv2.imwrite(adresses[2] + 'blured' + str((index + 1)) + typeImage, imageBlured)
+        cv2.imwrite(adresses[3] + 'edges' + str((index + 1)) + typeImage, imageEdges)
+        cv2.imwrite(adresses[4] + 'filtered' + str((index + 1)) + typeImage, imageFiltered)
+        cv2.imwrite(adresses[5] + 'quantized' + str((index + 1)) + typeImage, imageQuantized)
+    cv2.imwrite(adresses[1] + 'toonify' + str((index + 1)) + typeImage, imageToonify)
 b = datetime.datetime.now()
 
 print("Success! Images were created.")

@@ -2,6 +2,8 @@ import datetime
 import cv2
 import numpy as np
 
+from functions.cannythreshold import *
+
 adressOriginalImages  = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/originalImages/'
 adressBluredImages    = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/bluredImages/'
 adressEdgesImages     = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-FinalProject/images/edgesImages/'
@@ -11,9 +13,11 @@ adressCartoonImages   = '/home/estevamgalvao/Documentos/PycharmProjects/IPI-Fina
 
 
 typeImage = '.jpg'
-i = 42
+i = 43
 # imageAux = originalImagesArray[i]
-imageAux = cv2.imread(adressOriginalImages + 'img' + str((i + 1)) + '.jpg')
+# imageAux = cv2.imread(adressOriginalImages + '0' + str((i + 1)) + '.jpg')
+imageAux = cv2.imread(adressOriginalImages + '071.jpg')
+
 # imageAux = cv2.imread('img9.jpg')
 print(adressOriginalImages + 'img' + str((i + 1)) + '.jpg')
 # cv2.imshow('original', imageAux)
@@ -29,8 +33,10 @@ imageBlured = cv2.medianBlur(imageAux, 5)
 cv2.imwrite('imageBlured' + str((i+1)) + typeImage, imageBlured)
 # cv2.imwrite(adressBluredImages + 'SEMGLOBimageBlured' + str((i+1)) + typeImage, imageBlured)
 
-
-imageEdges = cv2.Canny(imageBlured, 62.5, 125, L2gradient=True)
+lowThreshold, highThreshold = cannyThreshold(imageBlured)
+print(lowThreshold)
+print(highThreshold)
+imageEdges = cv2.Canny(imageBlured, lowThreshold, highThreshold, L2gradient=True)
 imageEdges = cv2.bitwise_not(imageEdges) # inverto as linhas de branco para preto e o fundo de preto para branco
 cv2.imwrite('imageEdges' + str((i+1)) + typeImage, imageEdges)
 # cv2.imwrite(adressEdgesImages + 'SEMGLOBimageEdges' + str((i+1)) + typeImage, imageEdges)
