@@ -9,7 +9,10 @@ profile = int(input("- Profiles -\n[0] Admin\n[1] User\nselect: "))
 adresses = confirmProfile(profile)
 typeImage = input("Image type:\n")
 typeImage = '*.' + typeImage
+# print(adresses)
+# print(adresses[0] + typeImage)
 originalImagesArray = [cv2.imread(file) for file in sorted(glob.glob(adresses[0] + typeImage))]
+# print((len(originalImagesArray)))
 typeImage = typeImage[1:]
 
 print("\n- Toonifying -\n")
@@ -49,11 +52,11 @@ for index in range(len(originalImagesArray)):
     quantizationCriteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1)
     # Defino a quantidade de clusters para as cores #
     kClusters = 24
-    _ret, _label, _center = cv2.kmeans(imageKmeans, kClusters, None, quantizationCriteria, 10,
+    ret, label, center = cv2.kmeans(imageKmeans, kClusters, None, quantizationCriteria, 10,
                                        cv2.KMEANS_RANDOM_CENTERS)
-    _center = np.uint8(_center)
-    _res = _center[_label.flatten()]
-    imageQuantized = _res.reshape(imageAux.shape)
+    center = np.uint8(center)
+    outputAux = center[label.flatten()]
+    imageQuantized = outputAux.reshape(imageAux.shape)
 
     # Recombino a imagem quantizada com as bordas da imagem borrada #
     imageToonify = cv2.bitwise_and(imageQuantized, imageEdges)
@@ -66,5 +69,5 @@ for index in range(len(originalImagesArray)):
     cv2.imwrite(adresses[1] + 'toonify' + str((index + 1)) + typeImage, imageToonify)
 b = datetime.datetime.now()
 
-print("Success! Images were created.")
-print("\nThe program took %d hours, %d minutes and %d seconds to execute"%(abs(b.hour-a.hour), abs(b.minute-a.minute), abs(b.second-a.second)))
+print("\nSuccess! Images were created.")
+print("The program took %d hours, %d minutes and %d seconds to execute"%(abs(b.hour-a.hour), abs(b.minute-a.minute), abs(b.second-a.second)))
