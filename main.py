@@ -22,12 +22,11 @@ for index in range(len(originalImagesArray)):
     print(str((index + 1)) + 'º Image processing...')
     imageAux = originalImagesArray[index]
     image = originalImagesArray[index]
-    height, width, channels = image.shape
+    height, width = image.shape[:2]
 
     # Se a imagem for além de FULL HD - 1920x1080 - #
     if height * width > 2073600:
         bigImage = 1
-        print(bigImage)
         image = cv2.resize(image, (int(width / 2), int(height / 2)), interpolation=cv2.INTER_CUBIC)
 
     # Suavizo a imagem para reduzir ruídos e capturar suas bordas em seguida #
