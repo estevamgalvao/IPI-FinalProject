@@ -9,10 +9,7 @@ profile = int(input("- Profiles -\n[0] Admin\n[1] User\nselect: "))
 adresses = confirmProfile(profile)
 typeImage = input("Image type:\n")
 typeImage = '*.' + typeImage
-# print(adresses)
-# print(adresses[0] + typeImage)
 originalImagesArray = [cv2.imread(file) for file in sorted(glob.glob(adresses[0] + typeImage))]
-# print((len(originalImagesArray)))
 typeImage = typeImage[1:]
 
 print("\n- Toonifying -\n")
@@ -51,10 +48,10 @@ for index in range(len(originalImagesArray)):
     quantizationCriteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1)
     # Defino a quantidade de clusters para as cores #
     kClusters = 24
-    ret, label, center = cv2.kmeans(imageKmeans, kClusters, None, quantizationCriteria, 10,
+    sumDistances, label, centroids = cv2.kmeans(imageKmeans, kClusters, None, quantizationCriteria, 10,
                                        cv2.KMEANS_RANDOM_CENTERS)
-    center = np.uint8(center)
-    outputAux = center[label.flatten()]
+    centroids = np.uint8(centroids)
+    outputAux = centroids[label.flatten()]
     imageQuantized = outputAux.reshape(imageAux.shape)
 
     # Recombino a imagem quantizada com as bordas da imagem borrada #
