@@ -9,10 +9,7 @@ profile = int(input("- Profiles -\n[0] Admin\n[1] User\nselect: "))
 adresses = confirmProfile(profile)
 typeImage = input("Image type:\n")
 typeImage = '*.' + typeImage
-# print(adresses)
-# print(adresses[0] + typeImage)
 originalImagesArray = [cv2.imread(file) for file in sorted(glob.glob(adresses[0] + typeImage))]
-# print((len(originalImagesArray)))
 typeImage = typeImage[1:]
 
 print("\n- Toonifying -\n")
