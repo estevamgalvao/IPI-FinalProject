@@ -1,7 +1,7 @@
 # Final Project: Toonify Filter
 
 Implementation of an image processing algorithm inspired by [Kevin Dade Toonify Paper](https://github.com/estevamgalvao/IPI-FinalProject/blob/master/Dade_Toonify.pdf).
-The main proposal of the project is to achieve a friendly photo filter that transform every photo to a similar cartoon picture up to 5 seconds.
+The main proposal of the project is to achieve a friendly photo filter that transform every photo to a similar cartoon picture up to 5 seconds using Python.
 
 ### Main Functions
 - cv2.medianBlur
